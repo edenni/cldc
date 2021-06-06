@@ -1,0 +1,55 @@
+seed: 19970710
+data:
+  data_dir: ../input/train_images/
+  num_folds: 5
+  img_size: 224
+  # dataloader
+  num_workers: 4
+  batch_size: 64
+  # label smoothing
+  do_smooth: True
+  smooth_eps: 0.1
+  # fmix
+  do_fmix: False
+  fmix_prob: 0.6
+  fmix_alpha: 1
+  decay_power: 2
+  shape: 224
+  max_soft: True
+  reformulate: False
+  # cutmix
+  do_cutmix: True
+  cutmix_prob: 0.6
+  cutmix_alpha: 1
+model:
+  arch: swsl_resnext50_32x4d
+  do_dropout: True
+  p_drop: 0.2
+  num_classes: 5
+  fl_alpha: [0.4, 0.19, 0.19, 0.03, 0.19]
+  fl_gamma: 1.5
+  tl_t1: 0.8
+  tl_t2: 1.4
+optim:
+  optimizer: AdamW
+  lr: 0.0001
+  momentum: 0.86
+  # adam
+  beta1: 0.9
+  beta2: 0.999
+  weight_decay: 1.0e-5
+  # scheduler
+  scheduler: cosine_warmup
+  T0: 20
+  T_mult: 2
+  eta_min: 1.0e-7
+  warmup_steps: 5
+  gamma: 0.5
+train:
+  gpus: 1
+  amp_backend: native
+  benchmark: True
+  deterministic: True
+  max_epochs: 20
+  auto_lr_find: True
+  flush_logs_every_n_steps: 50
